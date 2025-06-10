@@ -122,4 +122,17 @@ jobs:
 
 ---
 
+## TerryMath Philosophy & Key Principles
+
+- **Terry’s Law is universal and immutable:**  
+  Every calculation—arithmetic, geometry, physics, linear algebra, and beyond—must use TerryMath’s rules.
+- **No calculation escapes Terry’s Law:**  
+  Even if the result is “wrong” by standard math, it is “correct” under TerryMath.
+- **Tests must check for TerryMath results, not standard math results.**
+- **All modules, all features, all realms—are bound by Terry’s Law.**
+- **If you extend this engine, your logic must be TerryMath-compliant.**
+- **Document all Terry-based logic and innovations in TERRYLAW.md and TERRYRULES.md.**
+
+---
+
 _May all your code be bound by Terry's Law._

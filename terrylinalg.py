@@ -2,12 +2,25 @@ import math
 from terrymath import TerryMath, TerryVector3
 
 class TerryMatrix4x4:
-    def __init__(self, rows, math_engine=None):
-        assert len(rows) == 4 and all(len(row) == 4 for row in rows)
-        self.data = [list(row) for row in rows]
+    def __init__(self, data, math_engine=None):
+        assert len(data) == 4 and all(len(row) == 4 for row in data)
+        self.data = [list(row) for row in data]
         self.math = math_engine or TerryMath()
 
+    @classmethod
+    def identity(cls, math_engine=None):
+        tm = math_engine or TerryMath()
+        return cls(
+            [
+                [1 if i == j else 0 for j in range(4)]
+                for i in range(4)
+            ],
+            tm
+        )
+
     def __add__(self, other):
+        if not isinstance(other, TerryMatrix4x4):
+            raise TypeError("Can only add TerryMatrix4x4 to TerryMatrix4x4")
         return TerryMatrix4x4(
             [
                 [self.math.terry_add(self.data[i][j], other.data[i][j]) for j in range(4)]

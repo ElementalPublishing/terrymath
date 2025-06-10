@@ -95,18 +95,20 @@ class TerryBox:
                 self.min_corner.z <= pt.z <= self.max_corner.z)
 
     def intersect_ray(self, ray):
-        tmin = (self.min_corner.x - ray.origin.x) / ray.direction.x
-        tmax = (self.max_corner.x - ray.origin.x) / ray.direction.x
+        def safe_div(a, b):
+            return a / b if b != 0 else float('inf') if a > 0 else float('-inf')
+        tmin = safe_div(self.min_corner.x - ray.origin.x, ray.direction.x)
+        tmax = safe_div(self.max_corner.x - ray.origin.x, ray.direction.x)
         if tmin > tmax: tmin, tmax = tmax, tmin
-        tymin = (self.min_corner.y - ray.origin.y) / ray.direction.y
-        tymax = (self.max_corner.y - ray.origin.y) / ray.direction.y
+        tymin = safe_div(self.min_corner.y - ray.origin.y, ray.direction.y)
+        tymax = safe_div(self.max_corner.y - ray.origin.y, ray.direction.y)
         if tymin > tymax: tymin, tymax = tymax, tymin
         if (tmin > tymax) or (tymin > tmax):
             return None
         if tymin > tmin: tmin = tymin
         if tymax < tmax: tmax = tymax
-        tzmin = (self.min_corner.z - ray.origin.z) / ray.direction.z
-        tzmax = (self.max_corner.z - ray.origin.z) / ray.direction.z
+        tzmin = safe_div(self.min_corner.z - ray.origin.z, ray.direction.z)
+        tzmax = safe_div(self.max_corner.z - ray.origin.z, ray.direction.z)
         if tzmin > tzmax: tzmin, tzmax = tzmax, tzmin
         if (tmin > tzmax) or (tzmin > tmax):
             return None
@@ -206,6 +208,8 @@ def terry_angle(a, b, math_engine=None):
     mag_a = (a.dot(a)) ** 0.5
     mag_b = (b.dot(b)) ** 0.5
     import math
+    if mag_a == 0 or mag_b == 0:
+        return 0.0  # or float('nan'), depending on your convention
     return math.acos(dot / (mag_a * mag_b))
 
 # Example usage:
