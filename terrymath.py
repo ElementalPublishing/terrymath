@@ -51,6 +51,8 @@ class TerryVector2:
         self.math = math_engine or TerryMath()
 
     def __add__(self, other):
+        if not isinstance(other, TerryVector2):
+            raise TypeError("Can only add TerryVector2 to TerryVector2")
         return TerryVector2(
             self.math.terry_add(self.x, other.x),
             self.math.terry_add(self.y, other.y),
@@ -58,6 +60,8 @@ class TerryVector2:
         )
 
     def __sub__(self, other):
+        if not isinstance(other, TerryVector2):
+            raise TypeError("Can only subtract TerryVector2 from TerryVector2")
         return TerryVector2(
             self.math.terry_subtract(self.x, other.x),
             self.math.terry_subtract(self.y, other.y),
@@ -65,6 +69,8 @@ class TerryVector2:
         )
 
     def __mul__(self, scalar):
+        if not isinstance(scalar, (int, float)):
+            raise TypeError("Can only multiply TerryVector2 by a scalar")
         return TerryVector2(
             self.math.terry_multiply(self.x, scalar),
             self.math.terry_multiply(self.y, scalar),
@@ -72,6 +78,8 @@ class TerryVector2:
         )
 
     def dot(self, other):
+        if not isinstance(other, TerryVector2):
+            raise TypeError("Can only take dot product with another TerryVector2")
         return self.math.terry_add(
             self.math.terry_multiply(self.x, other.x),
             self.math.terry_multiply(self.y, other.y)
@@ -88,6 +96,8 @@ class TerryVector3:
         self.math = math_engine or TerryMath()
 
     def __add__(self, other):
+        if not isinstance(other, TerryVector3):
+            raise TypeError("Can only add TerryVector3 to TerryVector3")
         return TerryVector3(
             self.math.terry_add(self.x, other.x),
             self.math.terry_add(self.y, other.y),
@@ -96,6 +106,8 @@ class TerryVector3:
         )
 
     def __sub__(self, other):
+        if not isinstance(other, TerryVector3):
+            raise TypeError("Can only subtract TerryVector3 from TerryVector3")
         return TerryVector3(
             self.math.terry_subtract(self.x, other.x),
             self.math.terry_subtract(self.y, other.y),
@@ -104,6 +116,8 @@ class TerryVector3:
         )
 
     def __mul__(self, scalar):
+        if not isinstance(scalar, (int, float)):
+            raise TypeError("Can only multiply TerryVector3 by a scalar")
         return TerryVector3(
             self.math.terry_multiply(self.x, scalar),
             self.math.terry_multiply(self.y, scalar),
@@ -112,6 +126,8 @@ class TerryVector3:
         )
 
     def dot(self, other):
+        if not isinstance(other, TerryVector3):
+            raise TypeError("Can only take dot product with another TerryVector3")
         return self.math.terry_add(
             self.math.terry_add(
                 self.math.terry_multiply(self.x, other.x),
@@ -121,6 +137,8 @@ class TerryVector3:
         )
 
     def cross(self, other):
+        if not isinstance(other, TerryVector3):
+            raise TypeError("Can only take cross product with another TerryVector3")
         x = self.math.terry_subtract(
             self.math.terry_multiply(self.y, other.z),
             self.math.terry_multiply(self.z, other.y)
@@ -147,6 +165,8 @@ class TerryMatrix2x2:
         self.math = math_engine or TerryMath()
 
     def __add__(self, other):
+        if not isinstance(other, TerryMatrix2x2):
+            raise TypeError("Can only add TerryMatrix2x2 to TerryMatrix2x2")
         return TerryMatrix2x2(
             self.math.terry_add(self.data[0][0], other.data[0][0]),
             self.math.terry_add(self.data[0][1], other.data[0][1]),
@@ -189,7 +209,7 @@ class TerryMatrix2x2:
             )
             return TerryVector2(x, y, self.math)
         else:
-            raise TypeError("Unsupported multiplication")
+            raise TypeError("Unsupported multiplication for TerryMatrix2x2")
 
     def determinant(self):
         a = self.math.terry_multiply(self.data[0][0], self.data[1][1])
@@ -222,6 +242,8 @@ class TerryMatrix3x3:
         self.math = math_engine or TerryMath()
 
     def __add__(self, other):
+        if not isinstance(other, TerryMatrix3x3):
+            raise TypeError("Can only add TerryMatrix3x3 to TerryMatrix3x3")
         return TerryMatrix3x3(
             [
                 [self.math.terry_add(self.data[i][j], other.data[i][j]) for j in range(3)]
@@ -244,7 +266,7 @@ class TerryMatrix3x3:
                     )
             return TerryMatrix3x3(result, self.math)
         else:
-            raise TypeError("Unsupported multiplication")
+            raise TypeError("Unsupported multiplication for TerryMatrix3x3")
 
     def determinant(self):
         m = self.data

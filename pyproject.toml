@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "terrymath"
+version = "0.1.0"
+description = "Modular mathematics and physics engine inspired by Terrence Howard’s Terry’s Law, providing customizable arithmetic, geometry, and simulation tools for research, education, and creative coding."
+authors = ["Wesley Alexander Houser <houser2388@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0.0,<9.0.0"
+black = ">=24.0.0,<25.0.0"
+ruff = ">=0.4.0,<0.5.0"
+coverage = ">=7.0.0,<8.0.0"
+
+[tool.ruff]
+line-length = 88
+extend-ignore = ["E501"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

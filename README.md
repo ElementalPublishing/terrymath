@@ -1,3 +1,5 @@
+![CI](https://github.com/ElementalPublishing/terrymath/actions/workflows/python-ci.yml/badge.svg)
+
 # TerryMath & TerryPhysics
 
 **TerryMath** is a modular, extensible mathematics and physics engine inspired by Terrence Howard’s math (“Terry’s Law”). Every calculation—arithmetic, geometry, linear algebra, and physics simulation—is powered by a customizable math engine, ensuring consistency and flexibility across all modules. TerryMath is designed for clarity, performance, and limitless expansion.
