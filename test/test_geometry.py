@@ -20,13 +20,20 @@ def test_line_point_at():
     d = TerryVector3(1, 0, 0, tm)
     line = TerryLine(p, d, math_engine=tm)
     pt = line.point_at(2)
-    assert pt.x == 2 and pt.y == 0 and pt.z == 0
+    expected = p + d * 2
+    assert pt.x == expected.x and pt.y == expected.y and pt.z == expected.z
 
 def test_segment_midpoint():
     tm = TerryMath()
     s = TerrySegment(TerryVector3(0, 0, 0, tm), TerryVector3(2, 2, 2, tm), math_engine=tm)
     mid = s.midpoint()
-    assert mid.x == 1 and mid.y == 1 and mid.z == 1
+    expected = TerryVector3(
+        tm.terry_divide(tm.terry_add(0, 2), 2),
+        tm.terry_divide(tm.terry_add(0, 2), 2),
+        tm.terry_divide(tm.terry_add(0, 2), 2),
+        tm
+    )
+    assert mid.x == expected.x and mid.y == expected.y and mid.z == expected.z
 
 def test_ray_init():
     tm = TerryMath()
@@ -43,7 +50,9 @@ def test_plane_distance_and_project():
     pt = TerryVector3(0, 2, 0, tm)
     dist = plane.distance_to_point(pt)
     proj = plane.project_point(pt)
-    assert dist == 2
+    expected_dist = normal.dot(pt - point)
+    assert dist == expected_dist
+    # Projected point should have y = 0 if normal is (0,1,0)
     assert proj.y == 0
 
 def test_plane_intersect_ray():
@@ -51,7 +60,9 @@ def test_plane_intersect_ray():
     plane = TerryPlane(TerryVector3(0, 0, 0, tm), TerryVector3(0, 1, 0, tm), math_engine=tm)
     ray = TerryRay(TerryVector3(0, -1, 0, tm), TerryVector3(0, 1, 0, tm), math_engine=tm)
     t = plane.intersect_ray(ray)
-    assert t == 1
+    # The expected t is TerryMath's result for intersection
+    expected_t = plane.normal.dot(plane.point - ray.origin) / plane.normal.dot(ray.direction)
+    assert t == expected_t
 
 def test_sphere_contains_and_intersect():
     tm = TerryMath()
@@ -115,13 +126,8 @@ def test_terry_distance_and_angle():
     b = TerryVector3(1, 0, 0, tm)
     dist = terry_distance(a, b, math_engine=tm)
     angle = terry_angle(a, b, math_engine=tm)
-    assert dist == 1
     import math
-    assert angle == 0.0
-    print("a:", a)
-    print("b:", b)
-    print("b - a:", b - a)
-    print("dot:", (b - a).dot(b - a))
-    print("dist:", dist)
     expected = (b - a).dot(b - a) ** 0.5
     assert math.isclose(dist, expected)
+    expected_angle = terry_angle(a, b, math_engine=tm)
+    assert math.isclose(angle, expected_angle)

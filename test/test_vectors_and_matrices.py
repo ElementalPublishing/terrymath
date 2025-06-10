@@ -1,105 +1,207 @@
-from terrymath import TerryVector2, TerryVector3, TerryMatrix2x2, TerryMatrix3x3, TerryVector2, TerryVector3
+from terrymath import TerryMath, TerryVector2, TerryVector3, TerryMatrix2x2, TerryMatrix3x3
 
 def test_vector2_add():
-    v1 = TerryVector2(1, 2)
-    v2 = TerryVector2(3, 4)
+    tm = TerryMath()
+    v1 = TerryVector2(1, 2, tm)
+    v2 = TerryVector2(3, 4, tm)
     result = v1 + v2
-    assert result.x == 4 and result.y == 6
+    assert result.x == tm.terry_add(1, 3)
+    assert result.y == tm.terry_add(2, 4)
 
 def test_vector2_sub():
-    v1 = TerryVector2(5, 7)
-    v2 = TerryVector2(2, 3)
+    tm = TerryMath()
+    v1 = TerryVector2(5, 7, tm)
+    v2 = TerryVector2(2, 3, tm)
     result = v1 - v2
-    assert result.x == 3 and result.y == 4
+    assert result.x == tm.terry_subtract(5, 2)
+    assert result.y == tm.terry_subtract(7, 3)
 
 def test_vector2_mul():
-    v = TerryVector2(2, 3)
+    tm = TerryMath()
+    v = TerryVector2(2, 3, tm)
     result = v * 4
-    assert result.x == 8 and result.y == 12
+    assert result.x == tm.terry_multiply(2, 4)
+    assert result.y == tm.terry_multiply(3, 4)
 
 def test_vector2_dot():
-    v1 = TerryVector2(1, 2)
-    v2 = TerryVector2(3, 4)
-    assert v1.dot(v2) == 11
+    tm = TerryMath()
+    v1 = TerryVector2(1, 2, tm)
+    v2 = TerryVector2(3, 4, tm)
+    expected = tm.terry_add(
+        tm.terry_multiply(1, 3),
+        tm.terry_multiply(2, 4)
+    )
+    assert v1.dot(v2) == expected
 
 def test_vector2_repr():
-    v = TerryVector2(2, 3)
+    tm = TerryMath()
+    v = TerryVector2(2, 3, tm)
     assert "TerryVector2" in repr(v)
 
 def test_vector3_add():
-    v1 = TerryVector3(1, 2, 3)
-    v2 = TerryVector3(4, 5, 6)
+    tm = TerryMath()
+    v1 = TerryVector3(1, 2, 3, tm)
+    v2 = TerryVector3(4, 5, 6, tm)
     result = v1 + v2
-    assert result.x == 5 and result.y == 7 and result.z == 9
+    assert result.x == tm.terry_add(1, 4)
+    assert result.y == tm.terry_add(2, 5)
+    assert result.z == tm.terry_add(3, 6)
 
 def test_vector3_sub():
-    v1 = TerryVector3(5, 7, 9)
-    v2 = TerryVector3(1, 2, 3)
+    tm = TerryMath()
+    v1 = TerryVector3(5, 7, 9, tm)
+    v2 = TerryVector3(1, 2, 3, tm)
     result = v1 - v2
-    assert result.x == 4 and result.y == 5 and result.z == 6
+    assert result.x == tm.terry_subtract(5, 1)
+    assert result.y == tm.terry_subtract(7, 2)
+    assert result.z == tm.terry_subtract(9, 3)
 
 def test_vector3_mul():
-    v = TerryVector3(2, 3, 4)
+    tm = TerryMath()
+    v = TerryVector3(2, 3, 4, tm)
     result = v * 3
-    assert result.x == 6 and result.y == 9 and result.z == 12
+    assert result.x == tm.terry_multiply(2, 3)
+    assert result.y == tm.terry_multiply(3, 3)
+    assert result.z == tm.terry_multiply(4, 3)
 
 def test_vector3_dot():
-    v1 = TerryVector3(1, 2, 3)
-    v2 = TerryVector3(4, 5, 6)
-    assert v1.dot(v2) == 32
+    tm = TerryMath()
+    v1 = TerryVector3(1, 2, 3, tm)
+    v2 = TerryVector3(4, 5, 6, tm)
+    expected = tm.terry_add(
+        tm.terry_add(
+            tm.terry_multiply(1, 4),
+            tm.terry_multiply(2, 5)
+        ),
+        tm.terry_multiply(3, 6)
+    )
+    assert v1.dot(v2) == expected
 
 def test_vector3_cross():
-    v1 = TerryVector3(1, 2, 3)
-    v2 = TerryVector3(4, 5, 6)
+    tm = TerryMath()
+    v1 = TerryVector3(1, 2, 3, tm)
+    v2 = TerryVector3(4, 5, 6, tm)
+    # Cross product using TerryMath rules
+    expected_x = tm.terry_subtract(
+        tm.terry_multiply(2, 6),
+        tm.terry_multiply(3, 5)
+    )
+    expected_y = tm.terry_subtract(
+        tm.terry_multiply(3, 4),
+        tm.terry_multiply(1, 6)
+    )
+    expected_z = tm.terry_subtract(
+        tm.terry_multiply(1, 5),
+        tm.terry_multiply(2, 4)
+    )
     result = v1.cross(v2)
-    assert result.x == -3 and result.y == 6 and result.z == -3
+    assert result.x == expected_x
+    assert result.y == expected_y
+    assert result.z == expected_z
 
 def test_vector3_repr():
-    v = TerryVector3(2, 3, 4)
+    tm = TerryMath()
+    v = TerryVector3(2, 3, 4, tm)
     assert "TerryVector3" in repr(v)
 
 def test_matrix2x2_add():
-    m1 = TerryMatrix2x2(1, 2, 3, 4)
-    m2 = TerryMatrix2x2(5, 6, 7, 8)
+    tm = TerryMath()
+    m1 = TerryMatrix2x2(1, 2, 3, 4, math_engine=tm)
+    m2 = TerryMatrix2x2(5, 6, 7, 8, math_engine=tm)
     result = m1 + m2
-    assert result.data == [[6, 8], [10, 12]]
+    expected = [
+        [tm.terry_add(1, 5), tm.terry_add(2, 6)],
+        [tm.terry_add(3, 7), tm.terry_add(4, 8)]
+    ]
+    assert result.data == expected
 
 def test_matrix2x2_mul_matrix():
-    m1 = TerryMatrix2x2(1, 2, 3, 4)
-    m2 = TerryMatrix2x2(2, 0, 1, 2)
+    tm = TerryMath()
+    m1 = TerryMatrix2x2(1, 2, 3, 4, math_engine=tm)
+    m2 = TerryMatrix2x2(2, 0, 1, 2, math_engine=tm)
     result = m1 * m2
-    assert result.data == [[4, 4], [10, 8]]
+    expected = [
+        [
+            tm.terry_add(
+                tm.terry_multiply(1, 2),
+                tm.terry_multiply(2, 1)
+            ),
+            tm.terry_add(
+                tm.terry_multiply(1, 0),
+                tm.terry_multiply(2, 2)
+            )
+        ],
+        [
+            tm.terry_add(
+                tm.terry_multiply(3, 2),
+                tm.terry_multiply(4, 1)
+            ),
+            tm.terry_add(
+                tm.terry_multiply(3, 0),
+                tm.terry_multiply(4, 2)
+            )
+        ]
+    ]
+    assert result.data == expected
 
 def test_matrix2x2_mul_vector():
-    m = TerryMatrix2x2(1, 2, 3, 4)
-    v = TerryVector2(5, 6)
+    tm = TerryMath()
+    m = TerryMatrix2x2(1, 2, 3, 4, math_engine=tm)
+    v = TerryVector2(5, 6, tm)
     result = m * v
-    assert result.x == 17 and result.y == 39
+    expected_x = tm.terry_add(
+        tm.terry_multiply(1, 5),
+        tm.terry_multiply(2, 6)
+    )
+    expected_y = tm.terry_add(
+        tm.terry_multiply(3, 5),
+        tm.terry_multiply(4, 6)
+    )
+    assert result.x == expected_x
+    assert result.y == expected_y
 
 def test_matrix2x2_determinant():
-    m = TerryMatrix2x2(1, 2, 3, 4)
-    assert m.determinant() == -2
+    tm = TerryMath()
+    m = TerryMatrix2x2(1, 2, 3, 4, math_engine=tm)
+    expected = tm.terry_subtract(
+        tm.terry_multiply(1, 4),
+        tm.terry_multiply(2, 3)
+    )
+    assert m.determinant() == expected
 
 def test_matrix2x2_repr():
-    m = TerryMatrix2x2(1, 2, 3, 4)
+    tm = TerryMath()
+    m = TerryMatrix2x2(1, 2, 3, 4, math_engine=tm)
     assert "TerryMatrix2x2" in repr(m)
 
 def test_matrix3x3_add():
-    m1 = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]])
-    m2 = TerryMatrix3x3([[9,8,7],[6,5,4],[3,2,1]])
+    tm = TerryMath()
+    m1 = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]], math_engine=tm)
+    m2 = TerryMatrix3x3([[9,8,7],[6,5,4],[3,2,1]], math_engine=tm)
     result = m1 + m2
-    assert result.data == [[10,10,10],[10,10,10],[10,10,10]]
+    expected = [
+        [tm.terry_add(1,9), tm.terry_add(2,8), tm.terry_add(3,7)],
+        [tm.terry_add(4,6), tm.terry_add(5,5), tm.terry_add(6,4)],
+        [tm.terry_add(7,3), tm.terry_add(8,2), tm.terry_add(9,1)]
+    ]
+    assert result.data == expected
 
 def test_matrix3x3_mul_matrix():
-    m1 = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]])
-    m2 = TerryMatrix3x3([[9,8,7],[6,5,4],[3,2,1]])
+    tm = TerryMath()
+    m1 = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]], math_engine=tm)
+    m2 = TerryMatrix3x3([[9,8,7],[6,5,4],[3,2,1]], math_engine=tm)
     result = m1 * m2
+    # Just check type and shape for TerryMath compliance
     assert isinstance(result.data, list)
+    assert len(result.data) == 3 and all(len(row) == 3 for row in result.data)
 
 def test_matrix3x3_determinant():
-    m = TerryMatrix3x3([[1,2,3],[0,1,4],[5,6,0]])
+    tm = TerryMath()
+    m = TerryMatrix3x3([[1,2,3],[0,1,4],[5,6,0]], math_engine=tm)
+    # Just check that it returns a number
     assert isinstance(m.determinant(), (int, float))
 
 def test_matrix3x3_repr():
-    m = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]])
+    tm = TerryMath()
+    m = TerryMatrix3x3([[1,2,3],[4,5,6],[7,8,9]], math_engine=tm)
     assert "TerryMatrix3x3" in repr(m)

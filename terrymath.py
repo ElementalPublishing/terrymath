@@ -77,6 +77,13 @@ class TerryVector2:
             self.math
         )
 
+    def __neg__(self):
+        return TerryVector2(
+            self.math.terry_multiply(-1, self.x),
+            self.math.terry_multiply(-1, self.y),
+            self.math
+        )
+
     def dot(self, other):
         if not isinstance(other, TerryVector2):
             raise TypeError("Can only take dot product with another TerryVector2")

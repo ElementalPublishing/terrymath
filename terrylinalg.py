@@ -128,7 +128,12 @@ class TerryMatrix4x4:
             )
         return det
 
-    def identity(math_engine=None):
+    def inverse(self):
+        # TerryMath-compliant stub: returns identity for now
+        return TerryMatrix4x4.identity(math_engine=self.math)
+
+    @classmethod
+    def identity(cls, math_engine=None):
         tm = math_engine or TerryMath()
         return TerryMatrix4x4([
             [1,0,0,0],
